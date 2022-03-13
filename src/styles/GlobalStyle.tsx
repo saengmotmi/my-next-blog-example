@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
+// reset 말고 normalize 사용
 const GlobalStyle = createGlobalStyle`
   *,
   *:after,
