@@ -7,11 +7,50 @@ const log = require("signale");
 const prompt = inquirer.createPromptModule();
 prompt.registerPrompt("date", datePrompt);
 
+const DEST_DIR = process.cwd();
+const CONTENTS_DIR = DEST_DIR + "/_posts";
+
 // TODO: 태그 선택지 만들기
 const getTags = () => {};
 
-const refineMetaData = (rawData) =>
-  matter.stringify("", rawData).split("'").join("");
+const processAnswers = async ({ title, timestamp }) => {
+  const createContentsDir = () => fs.ensureDir(CONTENTS_DIR);
+  const isDestDirExists = await fs.pathExists(CONTENTS_DIR);
+  const isDestContentExist = await fs.pathExists(`${CONTENTS_DIR}/${title}.md`);
+
+  if (!isDestDirExists) {
+    await createContentsDir();
+  }
+
+  if (isDestContentExist) {
+    log.error(`${title}.md already exists.`);
+    return;
+  }
+
+  createPost({ title, timestamp });
+};
+
+const createPost = async ({ title, timestamp }) => {
+  const refineMetaData = (rawData) =>
+    matter.stringify("", rawData).split("'").join("");
+
+  const meta = refineMetaData({
+    title,
+    timestamp: timestamp,
+    description: "",
+    tags: [],
+  });
+
+  fs.writeFile(`${CONTENTS_DIR}/${title}.md`, meta, (err) => {
+    if (err) {
+      log.error("Unknown Error: Cannot write file!", err);
+      return;
+    }
+
+    log.success("Success to create new post!");
+    log.note(`${CONTENTS_DIR}/${title}.md\n${meta}`);
+  });
+};
 
 const questions = [
   {
@@ -32,38 +71,6 @@ const questions = [
   },
 ];
 
-prompt(questions).then(async (res) => {
-  const destDir = process.cwd();
-  const contentsDir = destDir + "/_posts";
+const execute = () => prompt(questions).then(processAnswers);
 
-  const destDirExists = await fs.pathExists(contentsDir);
-  const destContentExist = await fs.pathExists(
-    `${contentsDir}/${res.title}.md`
-  );
-
-  const meta = refineMetaData({
-    title: res.title,
-    timestamp: res.timestamp,
-    tags: [],
-  });
-
-  if (!destDirExists) {
-    await fs.ensureDir(contentsDir);
-  }
-
-  if (destContentExist) {
-    log.error(`${res.title}.md already exists.`);
-    return;
-  }
-
-  fs.writeFile(`${contentsDir}/${res.title}.md`, meta, (err) => {
-    if (err) {
-      log.error("Unknown Error: Cannot write file!", err);
-      return;
-    }
-    console.log("");
-
-    log.success("Success to create new post!");
-    log.note(`${contentsDir}/${res.title}.md\n${meta}`);
-  });
-});
+execute();
