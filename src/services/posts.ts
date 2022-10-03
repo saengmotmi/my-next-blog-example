@@ -1,33 +1,32 @@
 import fs from "fs";
 import path from "path";
-import matter from "gray-matter";
+import matter, { GrayMatterFile } from "gray-matter";
 
 const MD_REGEX = /\.md$/;
 
 const postsDirectory = path.join(process.cwd(), "_posts");
 
-function getPostSlugs() {
+export function getPostFilenames() {
   return fs.readdirSync(postsDirectory);
 }
 
 // \. : 마침표를 사용하기 위해 이스케이프 문자 붙임
 // $ : 문자열의 마지막을 표시하거나 멀타리인 플래그의 마지막을 알리기 위해 붙임
 
-function getPostBySlug(slug: string, fields: string[] = []) {
-  const realSlug = slug.replace(MD_REGEX, "");
-  const fullPath = path.join(postsDirectory, `${realSlug}.md`);
+export function getPostByFilename(filename: string, fields: string[] = []) {
+  const filenameWithNoExtension = filename.replace(MD_REGEX, "");
+  const fullPath = path.join(postsDirectory, `${filenameWithNoExtension}.md`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
-  const { data, content } = matter(fileContents);
+  const { data, content }: GrayMatterFile<any> = matter(fileContents);
 
-  const items: any = {};
+  const items: { [key: string]: any } = {};
 
   fields.forEach((field) => {
-    console.log("field", field);
-    if (field === "slug") {
-      items[field] = realSlug;
-    }
     if (field === "content") {
       items[field] = content;
+    }
+    if (field === "data") {
+      items[field] = data;
     }
     if (typeof data[field] !== "undefined") {
       items[field] = data[field];
@@ -38,9 +37,10 @@ function getPostBySlug(slug: string, fields: string[] = []) {
 }
 
 export function getAllPosts(fields: string[] = []) {
-  const slugs = getPostSlugs();
-  const posts = slugs
-    .map((slug) => getPostBySlug(slug, fields))
+  const filenames = getPostFilenames();
+
+  const posts = filenames
+    .map((filename) => getPostByFilename(filename, fields))
     .sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
 
   return posts;
