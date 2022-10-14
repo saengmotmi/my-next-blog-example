@@ -4,8 +4,11 @@ import { ThemeProvider } from "styled-components";
 import font from "styles/font";
 import GlobalStyle from "styles/GlobalStyle";
 import theme from "styles/theme";
+import { SWRConfig } from "swr";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps<{ fallback: any }>) {
+  const { fallback } = pageProps;
+
   return (
     <>
       <Head>
@@ -13,9 +16,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <style>{font}</style>
       </Head>
       <GlobalStyle />
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <SWRConfig value={{ fallback }}>
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </SWRConfig>
     </>
   );
 }

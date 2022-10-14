@@ -1,24 +1,22 @@
+import { unstable_serialize } from "swr";
+import type { GetStaticPropsContext } from "next/types";
+
 import PostDetailView from "components/views/PostDetail";
 import { getPostByFilename, getPostFilenames } from "services/posts";
-import type { GetStaticPropsContext } from "next/types";
 import { markdownToHtml } from "utils/markdown";
-import type { Post } from "types";
 
-interface Props {
-  post: Post;
-}
-
-const Detail = ({ post }: Props) => {
-  return <PostDetailView post={post} />;
+const Detail = () => {
+  return <PostDetailView />;
 };
 
 export default Detail;
 
 export async function getStaticPaths() {
   const filenames = await getPostFilenames();
+  const getFilename = (slug: string) => "/" + slug.split(".")[0];
 
   return {
-    paths: filenames.map((slug) => "/" + slug.split(".")[0]),
+    paths: filenames.map(getFilename),
     fallback: false,
   };
 }
@@ -26,17 +24,23 @@ export async function getStaticPaths() {
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { slug } = context.params || {};
 
-  if (!slug) {
+  if (typeof slug !== "string") {
     return {
       props: {},
     };
   }
 
-  const post = await getPostByFilename(slug as string, ["content", "data"]);
+  const post = await getPostByFilename(slug, ["content", "data"]);
+  const convertedPost = {
+    ...post,
+    content: await markdownToHtml(post.content),
+  };
 
   return {
     props: {
-      post: { ...post, content: await markdownToHtml(post.content) },
+      fallback: {
+        [unstable_serialize(["posts", slug])]: convertedPost,
+      },
     },
   };
 }

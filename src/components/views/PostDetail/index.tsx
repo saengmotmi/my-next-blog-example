@@ -1,9 +1,11 @@
+import { useRouter } from "next/router";
+
+import { useGetPosts } from "hooks/posts";
 import type { Post } from "types";
 
-interface Props {
-  post: Post;
-}
+export default function PostDetail() {
+  const { slug } = useRouter().query;
+  const post = useGetPosts<Post>(["posts", slug as string]);
 
-export default function PostDetail({ post }: Props) {
   return <div dangerouslySetInnerHTML={{ __html: post.content }} />;
 }

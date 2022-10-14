@@ -1,20 +1,17 @@
 import Link from "next/link";
 
+import { useGetPosts } from "hooks/posts";
 import type { Post } from "types";
 
-interface Props {
-  posts: Post[];
-}
+export default function Posts() {
+  const posts = useGetPosts<Post[]>(["posts"]);
 
-export default function Posts({ posts }: Props) {
-  console.log({ posts });
   return (
     <div>
-      {posts.map((post, idx) => {
-        const { content, data } = post;
+      {posts?.map(({ data }, idx) => {
         return (
-          <Link key={idx} href={"/" + data.title} passHref>
-            <div dangerouslySetInnerHTML={{ __html: content }} />
+          <Link key={idx} href={"/" + data.slug} passHref>
+            <div dangerouslySetInnerHTML={{ __html: data.title }} />
           </Link>
         );
       })}
