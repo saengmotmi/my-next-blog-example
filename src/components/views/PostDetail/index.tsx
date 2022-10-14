@@ -1,11 +1,16 @@
 import { useRouter } from "next/router";
+import useSWR from "swr";
 
-import { useGetPosts } from "hooks/posts";
 import type { Post } from "types";
 
 export default function PostDetail() {
   const { slug } = useRouter().query;
-  const post = useGetPosts<Post>(["posts", slug as string]);
+  const { data: post } = useSWR<Post>(["posts", slug as string]);
 
-  return <div dangerouslySetInnerHTML={{ __html: post.content }} />;
+  return (
+    <div
+      className="markdown-body"
+      dangerouslySetInnerHTML={{ __html: post?.content ?? "" }}
+    />
+  );
 }

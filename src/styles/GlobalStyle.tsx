@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components";
 
 // reset 말고 normalize 사용
 const GlobalStyle = createGlobalStyle`
-  *,
+  /* *,
   *:after,
   *::before {
     -webkit-box-sizing: border-box;
@@ -130,11 +130,25 @@ const GlobalStyle = createGlobalStyle`
     &:link &:visited &:hover &:active {
       text-decoration: none;
     }
-  }
+  } */
   
   /* #__next {
     min-width: 320px;
   } */
+
+  .markdown-body {
+		box-sizing: border-box;
+		min-width: 200px;
+		max-width: 980px;
+		margin: 0 auto;
+		padding: 45px;
+	}
+
+	@media (max-width: 767px) {
+		.markdown-body {
+			padding: 15px;
+		}
+	}
 `;
 
 export default GlobalStyle;

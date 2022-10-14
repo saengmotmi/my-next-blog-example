@@ -1,13 +1,13 @@
 import Link from "next/link";
 
-import { useGetPosts } from "hooks/posts";
 import type { Post } from "types";
+import useSWR from "swr";
 
 export default function Posts() {
-  const posts = useGetPosts<Post[]>(["posts"]);
+  const { data: posts } = useSWR<Post[]>(["posts"]);
 
   return (
-    <div>
+    <div className="markdown-body">
       {posts?.map(({ data }, idx) => {
         return (
           <Link key={idx} href={"/" + data.slug} passHref>

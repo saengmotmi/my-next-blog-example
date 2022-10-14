@@ -1,10 +1,13 @@
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { ThemeProvider } from "styled-components";
+import { SWRConfig } from "swr";
+
 import font from "styles/font";
 import GlobalStyle from "styles/GlobalStyle";
 import theme from "styles/theme";
-import { SWRConfig } from "swr";
+
+import "github-markdown-css";
 
 function MyApp({ Component, pageProps }: AppProps<{ fallback: any }>) {
   const { fallback } = pageProps;
