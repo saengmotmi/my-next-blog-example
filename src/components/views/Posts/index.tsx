@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { useGetPosts } from "hooks/posts";
+import { useGetPosts } from "./hooks";
 
 export default function Posts() {
   const { posts } = useGetPosts();

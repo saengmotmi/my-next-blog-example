@@ -1,4 +1,4 @@
-import { useGetPost } from "hooks/posts";
+import { useGetPost } from "./hooks";
 import { useRouter } from "next/router";
 
 export default function PostDetail() {
