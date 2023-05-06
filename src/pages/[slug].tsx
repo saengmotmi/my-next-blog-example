@@ -5,7 +5,6 @@ import { isString } from "lodash-es";
 import PostDetailView from "components/views/PostDetail";
 import { getPostByFilename, getMarkdownFilenames } from "services/posts";
 import { markdownToHtml } from "features/markdown/markdown";
-import { getFilenameWithoutExtension } from "utils/file";
 
 const Detail = () => {
   return <PostDetailView />;
@@ -17,8 +16,8 @@ export async function getStaticPaths() {
   const markdowns = await getMarkdownFilenames();
 
   return {
-    paths: markdowns.map(function getFilename(slug: string) {
-      return `/${getFilenameWithoutExtension(slug)}`;
+    paths: markdowns.map(function getFilePath(slug: string) {
+      return `/${slug}`;
     }),
     fallback: false,
   };
