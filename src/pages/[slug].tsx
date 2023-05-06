@@ -4,7 +4,7 @@ import { isString } from "lodash-es";
 
 import PostDetailView from "components/views/PostDetail";
 import { getPostByFilename, getPostFilenames } from "services/posts";
-import { markdownToHtml } from "utils/markdown";
+import { markdownToHtml } from "features/markdown/markdown";
 import { getFilenameWithoutExtension } from "utils/file";
 
 const Detail = () => {

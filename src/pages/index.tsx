@@ -3,7 +3,7 @@ import { unstable_serialize } from "swr";
 
 import PostsView from "components/views/Posts";
 import { getAllPosts } from "services/posts";
-import { markdownToHtml } from "utils/markdown";
+import { markdownToHtml } from "features/markdown/markdown";
 
 const Home: NextPage = () => {
   return <PostsView />;
