@@ -36,7 +36,7 @@ export function getPostByFilename(filename: string, fields: string[] = []) {
   return items;
 }
 
-export function getAllPosts(fields: string[] = []) {
+export function getAllPosts({ fields = [] }: { fields: string[] }) {
   const filenames = getPostFilenames();
 
   const sortedPosts = filenames

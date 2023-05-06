@@ -12,7 +12,7 @@ const Home: NextPage = () => {
 export default Home;
 
 export async function getStaticProps() {
-  const posts = getAllPosts(["content", "data"]);
+  const posts = getAllPosts({ fields: ["content", "data"] });
   const postsWithContent = await Promise.all(
     posts.map(async (post) => ({
       ...post,
