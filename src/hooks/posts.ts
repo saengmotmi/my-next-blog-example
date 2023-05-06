@@ -9,3 +9,12 @@ export const useGetPosts = () => {
     posts: JSON.parse(data.data || "[]") as Post[],
   };
 };
+
+export const useGetPost = (slug: string) => {
+  const data = useSWR<string>(["posts", slug]);
+
+  return {
+    ...data,
+    post: JSON.parse(data.data || "[]") as Post,
+  };
+};

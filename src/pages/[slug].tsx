@@ -1,5 +1,6 @@
 import { unstable_serialize } from "swr";
 import type { GetStaticPropsContext } from "next/types";
+import { isString } from "lodash-es";
 
 import PostDetailView from "components/views/PostDetail";
 import { getPostByFilename, getPostFilenames } from "services/posts";
@@ -24,7 +25,7 @@ export async function getStaticPaths() {
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { slug } = context.params || {};
 
-  if (typeof slug !== "string") {
+  if (!isString(slug)) {
     return {
       props: {},
     };
@@ -39,7 +40,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   return {
     props: {
       fallback: {
-        [unstable_serialize(["posts", slug])]: convertedPost,
+        [unstable_serialize(["posts", slug])]: JSON.stringify(convertedPost),
       },
     },
   };

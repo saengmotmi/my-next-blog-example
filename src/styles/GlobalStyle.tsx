@@ -145,6 +145,7 @@ const GlobalStyle = createGlobalStyle`
 		box-sizing: border-box;
 		min-width: 200px;
 		max-width: 980px;
+    min-height: 100%;
 		margin: 0 auto;
 		padding: 45px;
 	}
