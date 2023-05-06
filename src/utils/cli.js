@@ -39,6 +39,7 @@ const createPost = async ({ title, timestamp }) => {
     timestamp: timestamp,
     description: "",
     tags: [],
+    slug: "",
   });
 
   fs.writeFile(`${CONTENTS_DIR}/${title}.md`, meta, (err) => {
