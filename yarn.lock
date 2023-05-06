@@ -4840,7 +4840,7 @@ __metadata:
     remark-html: ^15.0.1
     signale: ^1.4.0
     styled-components: ^5.3.10
-    swr: 2.0.0-beta.6
+    swr: ^2.1.5
     typescript: ^5.0.4
   languageName: unknown
   linkType: soft
@@ -5867,14 +5867,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swr@npm:2.0.0-beta.6":
-  version: 2.0.0-beta.6
-  resolution: "swr@npm:2.0.0-beta.6"
+"swr@npm:^2.1.5":
+  version: 2.1.5
+  resolution: "swr@npm:2.1.5"
   dependencies:
-    use-sync-external-store: ^1.1.0
+    use-sync-external-store: ^1.2.0
   peerDependencies:
     react: ^16.11.0 || ^17.0.0 || ^18.0.0
-  checksum: a2fa5b4600e84351970636e50dfa5209e65caf279a076a64fab8cbd4fb39407d4bee4c93577579ae95ea61161fb3ae176197a23d56770d1b85d6718d31877e05
+  checksum: f2ef9b83ec4b2ebf4d520578ab847307700db01ffcab64b3aec6ea94feaf96ca10e38e8b08bc8adfab8eaa6ec1bdfd64f82b6f5c14cc4cb5cf11e6fd22b405a4
   languageName: node
   linkType: hard
 
@@ -6166,7 +6166,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-sync-external-store@npm:^1.1.0":
+"use-sync-external-store@npm:^1.2.0":
   version: 1.2.0
   resolution: "use-sync-external-store@npm:1.2.0"
   peerDependencies:
