@@ -19,7 +19,7 @@ export function getPostByFilename(filename: string, fields: string[] = []) {
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content }: GrayMatterFile<any> = matter(fileContents);
 
-  const items: { [key: string]: any } = {};
+  const items: Record<string, any> = {};
 
   fields.forEach((field) => {
     if (field === "content") {
@@ -39,9 +39,16 @@ export function getPostByFilename(filename: string, fields: string[] = []) {
 export function getAllPosts(fields: string[] = []) {
   const filenames = getPostFilenames();
 
-  const posts = filenames
+  const sortedPosts = filenames
     .map((filename) => getPostByFilename(filename, fields))
-    .sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
+    .sort(내림차순_정렬);
 
-  return posts;
+  return sortedPosts;
+
+  function 내림차순_정렬(
+    post1: ReturnType<typeof getPostByFilename>,
+    post2: ReturnType<typeof getPostByFilename>
+  ) {
+    return post1.date > post2.date ? -1 : 1;
+  }
 }
