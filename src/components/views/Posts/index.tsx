@@ -1,10 +1,9 @@
 import Link from "next/link";
 
-import type { Post } from "types";
-import useSWR from "swr";
+import { useGetPosts } from "hooks/posts";
 
 export default function Posts() {
-  const { data: posts } = useSWR<Post[]>(["posts"]);
+  const { posts } = useGetPosts();
 
   return (
     <div className="markdown-body">

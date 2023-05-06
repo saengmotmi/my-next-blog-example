@@ -27,7 +27,7 @@ export async function getStaticProps() {
   return {
     props: {
       fallback: {
-        [unstable_serialize(["posts"])]: convertedPosts,
+        [unstable_serialize(["posts"])]: JSON.stringify(convertedPosts),
       },
     },
   };

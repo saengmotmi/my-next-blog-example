@@ -1,10 +1,11 @@
-import useSWR, { unstable_serialize, useSWRConfig } from "swr";
+import useSWR from "swr";
+import type { Post } from "types";
 
-// export const useGetPosts = <T extends object>(queryKey: string[]): T => {
-//   const client = useSWRConfig();
-//   return client.fallback[unstable_serialize(queryKey)];
-// };
+export const useGetPosts = () => {
+  const data = useSWR<string>(["posts"]);
 
-export const useGetPosts = (queryKey: string[]) => {
-  return useSWR([unstable_serialize(queryKey)]);
+  return {
+    ...data,
+    posts: JSON.parse(data.data || "[]") as Post[],
+  };
 };

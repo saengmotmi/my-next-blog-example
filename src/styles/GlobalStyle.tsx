@@ -132,9 +132,14 @@ const GlobalStyle = createGlobalStyle`
     }
   } */
   
-  /* #__next {
-    min-width: 320px;
-  } */
+  #__next {
+    height: 100%;
+  }
+
+  html, body {
+    margin: 0;
+    height: 100%;
+  }
 
   .markdown-body {
 		box-sizing: border-box;
